@@ -3,11 +3,14 @@ from bs4 import BeautifulSoup
 import time
 import json
 from datetime import datetime
+import os
 
-BOT_TOKEN = "7653096512:AAFDM04Ei8P5sLw9uPmWb3P0B7jZGuQhe1o"
-CHAT_ID = "896831703"
-CHECK_INTERVAL = 300
+# Telegram Bot Ayarları
+BOT_TOKEN = os.getenv("BOT_TOKEN", "7653096512:AAFDM04Ei8P5sLw9uPmWb3P0B7jZGuQhe1o")
+CHAT_ID = os.getenv("CHAT_ID", "896831703")
+CHECK_INTERVAL = 300  # saniye
 
+# Yazar Sayfaları
 URLS = {
     "Erdal Sağlam": "https://www.sozcu.com.tr/erdal-saglam-a2293",
     "Alaattin Aktaş": "https://www.ekonomim.com/amp/yazar/alaattin-aktas/30",
@@ -44,7 +47,6 @@ def send_telegram(title, url, author):
     }
     requests.post(api_url, data=data)
 
-
 def check_erdal_saglam():
     r = requests.get(URLS["Erdal Sağlam"], timeout=10)
     soup = BeautifulSoup(r.text, "html.parser")
@@ -70,16 +72,19 @@ def main_loop():
     while True:
         print("Kontrol ediliyor...")
         try:
+            # Erdal Sağlam
             title, link = check_erdal_saglam()
             if title and last_data.get("Erdal Sağlam") != title:
                 send_telegram(title, link, "Erdal Sağlam")
                 last_data["Erdal Sağlam"] = title
 
+            # Alaattin Aktaş
             title, link = check_ekonomim(URLS["Alaattin Aktaş"])
             if title and last_data.get("Alaattin Aktaş") != title:
                 send_telegram(title, link, "Alaattin Aktaş")
                 last_data["Alaattin Aktaş"] = title
 
+            # Fatih Özatay
             title, link = check_ekonomim(URLS["Fatih Özatay"])
             if title and last_data.get("Fatih Özatay") != title:
                 send_telegram(title, link, "Fatih Özatay")
