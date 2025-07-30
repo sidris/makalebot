@@ -29,18 +29,21 @@ def save_last_articles(data):
 
 def send_telegram(title, url, author):
     timestamp = datetime.now().strftime("%d.%m.%Y %H:%M")
-    message = f"📝 *{author} yeni bir yazı yayınladı!*
-\n📌 *{title}*
-🕒 {timestamp}
-🔗 [Haberi Oku]({url})"
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    message = (
+        f"📝 *{author} yeni bir yazı yayınladı!*\n"
+        f"📌 *{title}*\n"
+        f"🕒 {timestamp}\n"
+        f"🔗 [Haberi Oku]({url})"
+    )
+    api_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     data = {
         "chat_id": CHAT_ID,
         "text": message,
         "parse_mode": "Markdown",
         "disable_web_page_preview": False
     }
-    requests.post(url, data=data)
+    requests.post(api_url, data=data)
+
 
 def check_erdal_saglam():
     r = requests.get(URLS["Erdal Sağlam"], timeout=10)
