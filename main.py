@@ -5,12 +5,10 @@ import json
 from datetime import datetime
 import os
 
-# Telegram Bot Ayarları
 BOT_TOKEN = os.getenv("BOT_TOKEN", "7653096512:AAFDM04Ei8P5sLw9uPmWb3P0B7jZGuQhe1o")
 CHAT_ID = os.getenv("CHAT_ID", "896831703")
-CHECK_INTERVAL = 300  # saniye
+CHECK_INTERVAL = 300
 
-# Yazar Sayfaları
 URLS = {
     "Erdal Sağlam": "https://www.sozcu.com.tr/erdal-saglam-a2293",
     "Alaattin Aktaş": "https://www.ekonomim.com/amp/yazar/alaattin-aktas/30",
